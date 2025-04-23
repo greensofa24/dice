@@ -15,22 +15,123 @@ background-color: black;
 color: white;
 }
 
-.dice {
-background-color: #f65058;
+.d2 {
+position: relative;
+background-color: #f65054;
+width: 75px;
+height: 75px;
+border-radius: 50%;
+display: flex;
+justify-content: center;
+}
+
+.d6 {
+position: relative;
+background-color: #f65054;
 width: 75px;
 height: 75px;
 border-radius: 15px;
 }
 
+.pip {
+background-color: white;
+width: 17.5px;
+height: 17.5px;
+border-radius: 50%;
+}
+
+.number {
+font-family: Trebuchet MS;
+font-size: 40px;
+color: white;
+}
+
+.group {
+text-align: center;
+}
+
 .container {
+display: flex;
+justify-content: center;
+width: 100px;
 }
 </style>
 <title>Dice</title>
 </head>
 <body>
 
-<div class="dice"></div>
-<button>Click</button>
+<div class="container">
+<div class="group">
+<div class="d6" id="dice1"></div>
+<button onclick="rollDie(this.previousElementSibling);">Roll</button>
+</div>
+</div>
+
+<div class="container">
+<div class="group">
+<div class="d2" id="dice2"></div>
+<button onclick="rollDie(this.previousElementSibling, 2);">Roll</button>
+</div>
+</div>
+
+<script>
+function createPip(x, y, parent) {
+let pip = document.createElement("div");
+pip.classList.add("pip");
+pip.style.position = "absolute";
+pip.style.left = `calc(50% - 8.75px + ${x}px)`;
+pip.style.top = `calc(50% - 8.75px + ${y}px)`;
+parent.appendChild(pip);
+}
+
+function rollDie(parent, sides = 6) {
+parent.innerHTML = null;
+let roll = Math.floor(Math.random() * sides) + 1;
+if (sides == 6) {
+if (roll == 1) {
+createPip(0, 0, parent);
+}
+if (roll == 2) {
+createPip(20, -20, parent);
+createPip(-20, 20, parent);
+}
+if (roll == 3) {
+createPip(0, 0, parent);
+createPip(20, -20, parent);
+createPip(-20, 20, parent);
+}
+if (roll == 4) {
+createPip(-20, -20, parent);
+createPip(-20, 20, parent);
+createPip(20, -20, parent);
+createPip(20, 20, parent);
+}
+if (roll == 5) {
+createPip(0, 0, parent);
+createPip(-20, -20, parent);
+createPip(-20, 20, parent);
+createPip(20, -20, parent);
+createPip(20, 20, parent);
+}
+if (roll == 6) {
+createPip(-20, -20, parent);
+createPip(20, -20, parent);
+createPip(-20, 0, parent);
+createPip(20, 0, parent);
+createPip(-20, 20, parent);
+createPip(20, 20, parent);
+}
+}
+let number = document.createElement("p");
+number.classList.add("number");
+number.style.position = "absolute";
+number.style.top = `calc(50% - 61.25px)`;
+number.innerText = roll;
+parent.appendChild(number);
+}
+
+createPip(0, 0, document.getElementById("dice1"));
+</script>
 
 </body>
 </html>
